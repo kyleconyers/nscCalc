@@ -1,0 +1,172 @@
+<html>
+
+<title>Calculator</title>
+<script language="JavaScript">
+
+let operatorAlreadySelected = false;
+let equalsAlreadySelected = false;
+let decimalAlreadySelected = false;
+
+//sets number values to data inputs
+function numberButtonClicked(val){
+  if (operatorAlreadySelected == false){
+      var numberClicked = val;
+      document.getElementById("displayA").innerHTML = document.getElementById("displayA").innerHTML + numberClicked;
+  }
+  if (operatorAlreadySelected == true && equalsAlreadySelected == false){
+      var numberClicked = val;
+  document.getElementById("displayC").innerHTML = document.getElementById("displayC").innerHTML + numberClicked;
+  }
+};
+
+//selects math operator to conduct on input values, and if is selected again completes equal function and makes sum value the new starting value for a new math equation
+function operatorButtonClicked(val){
+  let valueB = document.getElementById("displayC").innerHTML
+  console.log(valueB)
+  if (operatorAlreadySelected == false){
+  var operatorClicked = val;
+  document.getElementById("displayB").innerHTML = document.getElementById("displayB").innerHTML + operatorClicked;
+  operatorAlreadySelected = true;
+  }
+  if (operatorAlreadySelected == true && equalsAlreadySelected == false && valueB != ""){
+    equalsClicked()
+    let currentFirstValue = document.getElementById("displayD").innerHTML
+    clearClicked()
+    currentFirstValue = currentFirstValue.slice(1);
+    document.getElementById("displayA").innerHTML = currentFirstValue
+    equalsAlreadySelected = false;
+    decimalAlreadySelected = false;
+    operatorButtonClicked(val)
+  }
+};
+//gets answer of valueA and valueB according to math operator selected
+function equalsClicked(){
+  let valueA = document.getElementById("displayA").innerHTML
+  let valueB = document.getElementById("displayC").innerHTML
+  let operatorSelected = document.getElementById("displayB").innerHTML
+  let valueD = document.getElementById("displayD").innerHTML
+  equalsAlreadySelected = true;
+  
+  if(operatorSelected == "x"){
+      document.getElementById("displayD").innerHTML = "=" + valueA * valueB;
+  }
+  if(operatorSelected == "-"){
+    //for some reason, going into the negative numbers was returning NaN, that's why this if statement is differently than the others
+      let answer = valueA - valueB
+      document.getElementById("displayD").innerHTML = "=" + answer;
+  }
+    if(operatorSelected == "+"){
+    //this operation is using +valueA and +valueB because this forces addition instead of just concatenating the values like JavaScript's default would do
+      let answer = +valueA + +valueB
+      document.getElementById("displayD").innerHTML = "=" + answer;
+  }
+    if(operatorSelected == "/"){
+      document.getElementById("displayD").innerHTML = "=" + valueA / valueB;
+  }
+};
+
+//clears all data view fileds
+function clearClicked(){
+  document.getElementById("displayA").innerHTML = ""
+  document.getElementById("displayC").innerHTML = ""
+  document.getElementById("displayB").innerHTML = ""
+  document.getElementById("displayD").innerHTML = ""
+  operatorAlreadySelected = false;
+  equalsAlreadySelected = false;
+  decimalAlreadySelected = false;
+
+};
+
+//adds decimal to data inputs
+function decimalClicked(val){
+  let valueA = document.getElementById("displayA").innerHTML
+  if (decimalAlreadySelected == false && operatorAlreadySelected == false && valueA == ""){
+    console.log(val)
+      var decimalClicked = val;
+      document.getElementById("displayA").innerHTML = "0" + decimalClicked;
+      decimalAlreadySelected = true;
+  }
+  if (decimalAlreadySelected == false && operatorAlreadySelected == false){
+    console.log(val)
+      var decimalClicked = val;
+      document.getElementById("displayA").innerHTML = document.getElementById("displayA").innerHTML + decimalClicked;
+      decimalAlreadySelected = true;
+  }
+  if (operatorAlreadySelected == true && equalsAlreadySelected == false){
+      var decimalClicked = val;
+      document.getElementById("displayC").innerHTML = document.getElementById("displayC").innerHTML + decimalClicked;
+      decimalAlreadySelected = true;
+  }
+}
+
+//backspaces the most recent data, operator, or decimal input
+function deleteClicked(){
+  let valueB = document.getElementById("displayC").innerHTML
+  if (operatorAlreadySelected == false){
+      var currentString = document.getElementById("displayA").innerHTML
+      currentString = currentString.slice(0, -1);
+      document.getElementById("displayA").innerHTML = currentString;
+  }
+  if (operatorAlreadySelected == true && equalsAlreadySelected == false && valueB ==""){
+      var currentString = document.getElementById("displayB").innerHTML
+      currentString = currentString.slice(0, -1);
+      document.getElementById("displayB").innerHTML = currentString;
+      operatorAlreadySelected = false;
+    }
+    if (operatorAlreadySelected == true && equalsAlreadySelected == false){
+      var currentString = document.getElementById("displayC").innerHTML
+      currentString = currentString.slice(0, -1);
+      document.getElementById("displayC").innerHTML = currentString;
+      
+    }
+ 
+}
+
+
+</script>
+
+<body>
+
+<div style = "height: 45px; display: block; margin: auto; width: 40%; padding-left: 100px; padding-right: 50px;">
+  <p id="displayA" style = "font-size: 40px; font-weight: bold; display: inline"></p>
+  <p id="displayB" style = "font-size: 40px; font-weight: bold; display: inline"></p>
+  <p id="displayC" style = "font-size: 40px; font-weight: bold; display: inline"></p>
+  <p id="displayD" style = "font-size: 40px; font-weight: bold; display: inline"></p>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div style ="margin: auto; width: 40%; padding-left: 100px; padding-right: 50px;">
+
+  <input type="button" onclick="numberButtonClicked(this.value)" id="myBtn" value="7" style = "border: 2px solid black; font-size: 40px; font-weight: bold">
+  <input type="button" onclick="numberButtonClicked(this.value)" id="myBtn" value="8" style = "border: 2px solid black; font-size: 40px; font-weight: bold">
+  <input type="button" onclick="numberButtonClicked(this.value)" id="myBtn" value="9" style = "border: 2px solid black; font-size: 40px; font-weight: bold">
+  <input type="button" onclick="operatorButtonClicked(this.value)"id="myBtn" value="+" style = "border: 2px solid black; font-size: 40px; font-weight: bold">
+
+<br>
+  <input type="button" onclick="numberButtonClicked(this.value)" id="myBtn" value="4" style = "border: 2px solid black; font-size: 40px; font-weight: bold">
+  <input type="button" onclick="numberButtonClicked(this.value)" id="myBtn" value="5" style = "border: 2px solid black; font-size: 40px; font-weight: bold">
+  <input type="button" onclick="numberButtonClicked(this.value)" id="myBtn" value="6" style = "border: 2px solid black; font-size: 40px; font-weight: bold">
+  <input type="button" onclick="operatorButtonClicked(this.value)"id="myBtn" value="-" style = "border: 2px solid black; font-size: 40px; font-weight: bold; padding-left: 11px; padding-right:10px;">
+<br>
+
+  <input type="button" onclick="numberButtonClicked(this.value)" id="myBtn" value="1" style = "border: 2px solid black; font-size: 40px; font-weight: bold">
+  <input type="button" onclick="numberButtonClicked(this.value)" id="myBtn" value="2" style = "border: 2px solid black; font-size: 40px; font-weight: bold">
+  <input type="button" onclick="numberButtonClicked(this.value)" id="myBtn" value="3" style = "border: 2px solid black; font-size: 40px; font-weight: bold">
+  <input type="button" onclick="operatorButtonClicked(this.value)"id="myBtn" value="x" style = "border: 2px solid black; font-size: 40px; font-weight: bold;">
+<br>
+  <input type="button" onclick="numberButtonClicked(this.value)" id="myBtn" value="0" style = "border: 2px solid black; font-size: 40px; font-weight: bold;">
+  <input type="button" onclick="decimalClicked(this.value)"id="myBtn" value="." style = "border: 2px solid black; font-size: 40px; font-weight: bold; padding-left: 12px; padding-right: 11px;">
+  <input type="button" onclick="equalsClicked()"id="myBtn" value="=" style = "border: 2px solid black; font-size: 40px; font-weight: bold; padding-left: 5px">
+<input type="button" onclick="operatorButtonClicked(this.value)"id="myBtn" value="/" style = "border: 2px solid black; font-size: 40px; font-weight: bold; padding-left: 12px; padding-right: 12px;">
+
+<br>
+  <input type="button" onclick="clearClicked()"id="myBtn" value="clear" style = "border: 2px solid black; font-size: 27px; font-weight: bold; padding-left: 7px; padding-right: 6px;">
+  <input type="button" onclick="deleteClicked()"id="myBtn" value="delete" style = "border: 2px solid black; font-size: 27px; font-weight: bold; padding-left: 0px; padding-right: 0px;">
+</div>
+
+</form>
+</body>
+</html>
