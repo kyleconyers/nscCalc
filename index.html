@@ -7,6 +7,8 @@ let operatorAlreadySelected = false;
 let equalsAlreadySelected = false;
 let decimalAlreadySelected = false;
 
+
+
 //sets number values to data inputs
 function numberButtonClicked(val){
   if (operatorAlreadySelected == false){
@@ -124,7 +126,20 @@ function deleteClicked(){
 
 
 </script>
+<style>
+  input {
+-webkit-appearance: none;
+-moz-appearance: none;
+appearance: none;
+}
+  @media only screen and (max-width: 600px) {
+  body {
+    background-color: lightblue;
+  }
+}
 
+
+</style>
 <body>
 
 <div style = "height: 45px; display: block; margin: auto; width: 40%; padding-left: 100px; padding-right: 50px;">
